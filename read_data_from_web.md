@@ -1,0 +1,47 @@
+read_data_from_web
+================
+
+``` r
+nsduh_url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
+
+nsduh_url =
+  read_html(nsduh_url)
+```
+
+``` r
+marj_use_df =
+  nsduh_url |>
+  html_table() |>
+  first() |>
+  slice(-1) #delete first row
+```
+
+Import star wars…
+
+``` r
+swm_html = 
+  read_html("https://www.imdb.com/list/ls070150896/")
+```
+
+``` r
+swm_title_vec =
+  swm_html |>
+  html_elements(".lister-item-header a") |>
+  html_text()
+
+swm_gross_rev_vec =
+  swm_html |>
+  html_elements(".text-small:nth-child(7) span:nth-child(5)") |>
+  html_text()
+
+swm_runtime_vec = 
+  swm_html |>
+  html_elements(".runtime") |>
+  html_text()
+
+swm_df = 
+  tibble(
+    title = swm_title_vec,
+    rev = swm_gross_rev_vec,
+    runtime = swm_runtime_vec)
+```
